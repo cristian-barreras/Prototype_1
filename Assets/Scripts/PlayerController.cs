@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class player : MonoBehaviour
 {
-    public float speed = 5f;
+    private float speed = 20f;
+    private float turnSpeed = 45f;
+    private float jumpSpeed = 5f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -10,9 +12,23 @@ public class player : MonoBehaviour
     }
 
     // Update is called once per frame
+    private float horizontalInput;
+    private float forwardInput;
+
     void Update()
     {
-        transform.Translate(Vector3.forward * Time.deltaTime * speed);
+        horizontalInput = Input.GetAxis("Horizontal");
+        forwardInput = Input.GetAxis("Vertical");
+
+        transform.Translate(Vector3.forward * Time.deltaTime * speed * forwardInput);
+        transform.Rotate(Vector3.up * Time.deltaTime * turnSpeed * horizontalInput);
+        if (Input.GetKey(KeyCode.Space))
+        {
+            transform.Translate(Vector3.up * jumpSpeed * Time.deltaTime);
+        }
+
+     
+
     }
 
     void FixedUpdate()
